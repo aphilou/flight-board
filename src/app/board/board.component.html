@@ -1,0 +1,40 @@
+<div id="panneau">
+  <div id="title">
+    <img src="assets/plane.png" alt="Avion" style="width: 10%">
+    <span class="title big">{{ 'arrivées' | uppercase }}</span>
+  </div>
+  <div id="info">
+    <span class="title">Heure:</span>
+    <div class="half-letter">
+      <div class="letter" *ngFor="let item of fhour.split(''); let i=index">
+        <p>{{ item }}</p>
+      </div><!--
+      -->
+    </div>
+    <span class="title" style="position: relative; left: -32px;">Vol:</span>
+    <div class="half-letter" style="left: -147px;">
+      <div class="letter" *ngFor="let item of flight.split(''); let i=index">
+        <p>{{ item }}</p>
+      </div><!--
+      -->
+    </div>
+    <span class="title"  style="position: relative; left: -128px;">Provenance:</span>
+    <div class="half-letter" style="left: -253px;">
+      <div class="letter" *ngFor="let item of from.split(''); let i=index">
+        <p>{{ item }}</p>
+      </div><!--
+      -->
+    </div>
+  </div>
+  <div id="table-header">
+    <p class="title arrival">Arrivées</p>
+    <p class="title hguest">Passagers</p>
+  </div>
+  <div *ngFor="let table of arrivals">
+    <div class="letter" *ngFor="let item of (table + '     ').slice(0, 10).split(''); let i=index">
+      <p>{{ item }}</p>
+    </div><!--
+    -->
+    <div class="guest"><span *ngFor="let g of guests; let k=index">{{ g }}{{ (k !== (guests.length - 1) ? '&nbsp;-&nbsp;' : '') }}</span></div>
+  </div>
+</div>
