@@ -7,6 +7,7 @@ import { BoardComponent } from './board/board.component';
 import { GuestComponent } from './guest/guest.component';
 import { TableComponent } from './table/table.component';
 import { Routes, RouterModule } from '@angular/router';
+import { BoardService } from './services/board.service';
 
 const appRoutes: Routes = [
   { path: 'board', component: BoardComponent },
@@ -26,7 +27,9 @@ const appRoutes: Routes = [
     AppRoutingModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [],
+  providers: [
+    BoardService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

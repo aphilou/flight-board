@@ -1,13 +1,4 @@
-<style>
-html,body{
-    height:100%;
-}
-
-.container {
-    height:100%;
-}
-</style>
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default" [hidden]="!showMenu">
   <div class="container-fluid">
     <ul class="nav navbar-nav">
       <li routerLinkActive="active"><a routerLink="board">Affichage</a></li>
@@ -16,6 +7,7 @@ html,body{
     </ul>
     <div class="navbar-right">
       <p>Hello !</p>
+      <button (click)="toggleMenu()">Hide</button>
     </div>
   </div>
 </nav>
