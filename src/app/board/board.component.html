@@ -30,11 +30,11 @@
     <p class="title arrival">Arrivées</p>
     <p class="title hguest">Passagers</p>
   </div>
-  <div *ngFor="let table of arrivals">
-    <div class="letter" *ngFor="let item of (table + '     ').slice(0, 10).split(''); let i=index">
+  <div *ngFor="let table of flights">
+    <div class="letter" *ngFor="let item of (table.name + '     ').slice(0, 10).split(''); let i=index">
       <p>{{ item }}</p>
     </div><!--
     -->
-    <div class="guest"><span *ngFor="let g of guests; let k=index">{{ g }}{{ (k !== (guests.length - 1) ? '&nbsp;-&nbsp;' : '') }}</span></div>
+    <div class="guest"><span *ngFor="let g of table.passengers; let k=index">{{ g }}{{ (k !== (table.passengers.length - 1) ? '&nbsp;-&nbsp;' : '') }}</span></div>
   </div>
 </div>

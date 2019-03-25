@@ -1,3 +1,19 @@
-<p>
-  table works!
-</p>
+<div class="row">
+  <div class="col-sm-8 col-sm-offset-2">
+    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+      <div class="form-group">
+        <label for="name" class="input-label">
+          Nom du vol
+        </label>
+        <input type="text" name="name" id="name" class="form-control" ngModel required>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="f.invalid">Enregistrer</button>
+    </form>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-8 col-sm-offset-2" *ngFor="let item of flights">
+    <span class="col-sm-8 col-sm-offset-2" style="color: wheat">{{ item.name }}</span>
+    <button type="button" class="btn btn-danger">Supprimer</button>
+  </div>
+</div>
