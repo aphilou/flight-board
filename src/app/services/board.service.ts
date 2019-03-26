@@ -78,7 +78,35 @@ export class BoardService {
     this.emitFlights();
   }
 
+
+  removeFlight(flight: Flight) {
+    const index = this.flights.findIndex(
+      (elt) => {
+        if (elt === flight) {
+          return true;
+        }
+      }
+    );
+    this.flights.splice(index, 1);
+  }
   emitPassengers() {
     this.passengerSubject.next(this.passengers.slice());
+  }
+
+  createPassenger(name: string, fid: number) {
+    const passenger = new Passenger(name, fid);
+    this.passengers.push(passenger);
+    this.emitPassengers();
+  }
+
+  removePassenger(passenger: Passenger) {
+    const index = this.passengers.findIndex(
+      (elt) => {
+        if (elt === passenger) {
+          return true;
+        }
+      }
+    );
+    this.passengers.splice(index, 1);
   }
 }

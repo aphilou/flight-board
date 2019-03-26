@@ -40,6 +40,14 @@ export class GuestComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(form: NgForm) {
-    console.log('onSubmit');
+    const name = form.value[ 'name' ];
+    const flightId = form.value[ 'flight' ];
+    this.brdService.createPassenger(name, flightId);
+    form.reset();
+  }
+
+  onRemove(passenger: Passenger) {
+    this.brdService.removePassenger(passenger);
+    this.brdService.emitPassengers();
   }
 }

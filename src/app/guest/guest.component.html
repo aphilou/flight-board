@@ -11,8 +11,8 @@
           <label for="flight" class="input-label">
             Embarque sur le vol
           </label>
-          <select name="flight" id="flight" class="form-control" >
-            <option value="item.name" *ngFor="let item of flights">{{ item.name }}</option>
+          <select name="flight" id="flight" class="form-control" ngModel>
+            <option value="item.flightId" *ngFor="let item of flights">{{ item.name }}</option>
           </select>
         </div>
         <button type="submit" class="btn btn-primary" [disabled]="f.invalid">Enregistrer</button>
@@ -23,6 +23,6 @@
     <div class="col-sm-8 col-sm-offset-2" *ngFor="let item of passengers">
       <span class="col-1 col-sm-offset-2" style="color: wheat">{{ item.name }}</span>
       <span class="col-2 col-sm-offset-4" style="color: wheat">{{ item.flightId }}</span>
-      <button type="button" class="btn btn-danger">Supprimer</button>
+      <button type="button" class="btn btn-danger" (click)="onRemove(item)">Supprimer</button>
     </div>
   </div>
