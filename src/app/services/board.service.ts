@@ -74,10 +74,10 @@ export class BoardService {
 
   createFlight(name: string) {
     const flight = new Flight(this.flights.length + 1, name);
+    console.log('Add flight ' + flight.name + ', ' + flight.id);
     this.flights.push(flight);
     this.emitFlights();
   }
-
 
   removeFlight(flight: Flight) {
     const index = this.flights.findIndex(

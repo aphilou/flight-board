@@ -34,4 +34,9 @@ export class TableComponent implements OnInit, OnDestroy {
     this.brdService.createFlight(name);
     form.reset();
   }
+
+  onRemove(flight: Flight) {
+    this.brdService.removeFlight(flight);
+    this.brdService.emitFlights();
+  }
 }

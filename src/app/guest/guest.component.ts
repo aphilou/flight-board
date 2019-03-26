@@ -23,6 +23,11 @@ export class GuestComponent implements OnInit, OnDestroy {
     this.flightSubscription = this.brdService.flightSubject.subscribe(
       (flights) => {
         this.flights = flights;
+        this.flights.forEach(
+          (f) => {
+            console.log('F: ' + f.name + ' / #' + f.id);
+          }
+        );
       }
     );
     this.brdService.emitFlights();
