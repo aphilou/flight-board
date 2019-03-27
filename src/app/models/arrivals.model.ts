@@ -1,6 +1,6 @@
 export class Arrival {
 
-    passengers: string[];
+    passengers: string;
 
     constructor(public name: string) {}
 }

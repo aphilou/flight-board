@@ -62,9 +62,9 @@ p.hguest {
 
 #panneau
 {
-    width: 96%;
-    height: 100%;
-	margin: auto;
+    width: 98%;
+	height: 100%;
+	margin: 0;
 	text-align: left;
 	padding: 20px;
     border-radius: 2px;
@@ -165,11 +165,14 @@ p.hguest {
     position: relative;
     top: -17px;
     display: inline-block;
-    padding: 2px;
+	padding: 2px;
+	overflow: hidden;
+	table-layout: fixed;
 
     font-family: BigNoodleTitling;
     color: #eee;
-    height: 40px;
+	height: 40px;
+	width: 60%;
     font-size: 40px;
 
 	background: -webkit-linear-gradient( to right, rgb(48, 48, 48), rgb(19, 19, 19));
@@ -186,4 +189,45 @@ p.hguest {
     display: inline-block;
     position: relative;
     top: -3px;
+}
+
+.defile {
+	display:block;
+	-webkit-animation:linear marqueelike 20s infinite ;
+	-moz-animation:linear marqueelike 20s infinite ;
+	-o-animation:linear marqueelike 20s infinite ;
+	-ms-animation:linear marqueelike 20s infinite ;
+	animation:linear marqueelike 20s infinite ;
+	margin-left:-100%;
+	padding:0 5px;
+	text-align:left;
+	height:25px;
+}
+
+.defile:after {
+	content:attr(data-text);
+	position:absolute;
+	white-space:nowrap;
+	padding-left:10px;
+}
+
+@-webkit-keyframes marqueelike {
+	0%, 100% {margin-left:0;}
+	99.99% {margin-left:-100%;}
+}
+@-moz-keyframes marqueelike {
+	0%, 100% {margin-left:0;}
+	99.99% {margin-left:-100%;}
+}
+@-o-keyframes marqueelike {
+	0%, 100% {margin-left:0;}
+	99.99% {margin-left:-100%;}
+}
+@-ms-keyframes marqueelike {
+	0%, 100% {margin-left:0;}
+	99.99% {margin-left:-100%;}
+}
+@keyframes marqueelike {
+	0%, 100% {margin-left:0;}
+	99.99% {margin-left:-100%;}
 }

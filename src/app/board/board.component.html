@@ -1,4 +1,4 @@
-<div id="panneau">
+<div id="panneau" class="panel-background">
   <div id="title">
     <img src="assets/plane.png" alt="Avion" style="width: 10%">
     <span class="title big">{{ 'arrivées' | uppercase }}</span>
@@ -31,10 +31,13 @@
     <p class="title hguest">Passagers</p>
   </div>
   <div *ngFor="let table of flights">
-    <div class="letter" *ngFor="let item of (table.name + '     ').slice(0, 10).split(''); let i=index">
+    <div class="letter" *ngFor="let item of (table.name + '      ').slice(0, 10).split(''); let i=index">
       <p>{{ item }}</p>
     </div><!--
     -->
-    <div class="guest"><span *ngFor="let g of table.passengers; let k=index">{{ g }}{{ (k !== (table.passengers.length - 1) ? '&nbsp;-&nbsp;' : '') }}</span></div>
+    <div class="guest">
+      <span class="defile" [attr.data-text]="' - ' + table.passengers" *ngIf="table.passengers.length > maxSize">{{ table.passengers }}</span>
+      <span *ngIf="table.passengers.length <= maxSize">{{ table.passengers }}</span>
+    </div>
   </div>
 </div>

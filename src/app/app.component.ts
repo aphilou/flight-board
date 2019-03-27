@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { BoardService } from './services/board.service';
 import { Subscription } from 'rxjs';
+import { SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,8 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'flight-board';
   showMenu: boolean;
   showMenuSubscription: Subscription;
+  downloadJsonHref: SafeUrl;
+  jsonSubscription: Subscription;
 
   constructor(private boardService: BoardService) {}
 
@@ -22,6 +25,11 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     );
     this.boardService.emitMenu();
+    this.jsonSubscription = this.boardService.jsonSubject.subscribe(
+      (uri: SafeUrl) => {
+        this.downloadJsonHref = uri;
+      }
+    );
   }
 
   ngOnDestroy(): void {

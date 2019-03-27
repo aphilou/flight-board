@@ -3,14 +3,21 @@ import { Subject } from 'rxjs';
 import { Arrival } from '../models/arrivals.model';
 import { Flight } from '../models/flight.model';
 import { Passenger } from '../models/passenger.model';
+import { HttpClient } from '@angular/common/http';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BoardService {
 
+  private _jsonURL = 'assets/DbData.json';
   private showMenu = true;
-  menuSubject = new Subject<boolean>();
+  public menuSubject = new Subject<boolean>();
+
+  private jsonUrl: SafeUrl;
+  public jsonSubject = new Subject<SafeUrl>();
+
 
   private flights = [
     {
@@ -43,7 +50,31 @@ export class BoardService {
 
   arrivalsSubject = new Subject<Arrival[]>();
 
-  constructor() { }
+  constructor(private http: HttpClient, private sanitizer: DomSanitizer) {
+    this.http.get(this._jsonURL).subscribe(
+      (data: any) => {
+        console.log(data);
+        if (data.destinations) {
+          this.flights = data.destinations;
+          this.emitFlights();
+        }
+        if (data.passengers) {
+          this.passengers = data.passengers;
+          this.emitPassengers();
+        }
+        this.generateDownloadJsonUri();
+      });
+  }
+
+  generateDownloadJsonUri() {
+    const exportData = {
+      destinations: this.flights,
+      passengers: this.passengers
+    };
+    const theJSON = JSON.stringify(exportData);
+    const uri = this.sanitizer.bypassSecurityTrustUrl('data:text/json;charset=UTF-8,' + encodeURIComponent(theJSON));
+    this.jsonSubject.next(uri);
+  }
 
   emitMenu() {
     this.menuSubject.next(this.showMenu);
@@ -62,7 +93,7 @@ export class BoardService {
         return (item.flightId === fgt.id);
       }).map(elt => {
         return elt.name;
-      });
+      }).join(' - ');
       arrivals.push(arrival);
     });
     this.arrivalsSubject.next(arrivals.slice());
@@ -77,6 +108,7 @@ export class BoardService {
     console.log('Add flight ' + flight.name + ', ' + flight.id);
     this.flights.push(flight);
     this.emitFlights();
+    this.generateDownloadJsonUri();
   }
 
   removeFlight(flight: Flight) {
@@ -88,7 +120,9 @@ export class BoardService {
       }
     );
     this.flights.splice(index, 1);
+    this.generateDownloadJsonUri();
   }
+
   emitPassengers() {
     this.passengerSubject.next(this.passengers.slice());
   }
@@ -97,6 +131,7 @@ export class BoardService {
     const passenger = new Passenger(name, fid);
     this.passengers.push(passenger);
     this.emitPassengers();
+    this.generateDownloadJsonUri();
   }
 
   removePassenger(passenger: Passenger) {
@@ -108,5 +143,6 @@ export class BoardService {
       }
     );
     this.passengers.splice(index, 1);
+    this.generateDownloadJsonUri();
   }
 }

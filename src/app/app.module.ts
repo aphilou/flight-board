@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, platformBrowser } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -9,6 +9,8 @@ import { GuestComponent } from './guest/guest.component';
 import { TableComponent } from './table/table.component';
 import { Routes, RouterModule } from '@angular/router';
 import { BoardService } from './services/board.service';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserPlatformLocation } from '@angular/platform-browser/src/browser/location/browser_platform_location';
 
 const appRoutes: Routes = [
   { path: 'board', component: BoardComponent },
@@ -28,6 +30,7 @@ const appRoutes: Routes = [
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [

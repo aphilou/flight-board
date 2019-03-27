@@ -1,6 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
-html,body{
+html {
     height:100%;
+}
+
+body{
+    height:100%;
+    overflow-x: hidden;
+    //background: rgb(65, 64, 64);
+    background: -webkit-linear-gradient(rgb(69,69,69), rgb(32,32,32));
+	background:    -moz-linear-gradient(rgb(69,69,69), rgb(32,32,32));
+	background: 	 -o-linear-gradient(rgb(69,69,69), rgb(32,32,32));
+	background: 		linear-gradient(rgb(69,69,69), rgb(32,32,32));
+
+	-webkit-box-shadow: 0 0 5px rgba(0,0,0,0.5);
+	   -moz-box-shadow: 0 0 5px rgba(0,0,0,0.5);
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
 }
 
 .container {
