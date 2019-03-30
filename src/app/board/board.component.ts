@@ -1,7 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Arrival } from '../models/arrivals.model';
 import { BoardService } from '../services/board.service';
 import { Subscription, Observable } from 'rxjs';
+import { Key } from 'protractor';
 
 @Component({
   selector: 'app-board',
@@ -24,16 +25,14 @@ export class BoardComponent implements OnInit, OnDestroy {
   diffHeight: number;
   scrollTo = 0;
   scrollIncrement = 10;
+  keyScrollIncrement = 20;
+  stopScrolling = true;
+  pauseScrolling = false;
 
   constructor(private boardService: BoardService) {
     console.debug('On BoardComponent constructor...');
-    console.log('windows.height = ', document.body.scrollHeight);
     console.log('body.height = ', document.body.clientHeight);
-    if (document.body.scrollHeight && document.body.clientHeight) {
-      this.diffHeight = document.body.scrollHeight - document.body.clientHeight;
-    } else {
-      this.diffHeight = 0;
-    }
+    console.log('diffHeight = ', this.diffHeight);
   }
 
   ngOnInit() {
@@ -47,11 +46,26 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.scrollDownSubscription  = new Observable( (observer) => {
       setInterval(() => {
         observer.next(window.pageYOffset);
-      }, 500);
+      }, 200);
     })
-    .subscribe(data => { 
+    .subscribe(data => {
       console.log('pageYOffset = ', data);
-      if (this.diffHeight > 0) {
+      if (this.diffHeight == null) {
+        const scrollHeight = Math.max(
+          document.body.scrollHeight, document.documentElement.scrollHeight,
+          document.body.offsetHeight, document.documentElement.offsetHeight,
+          document.body.clientHeight, document.documentElement.clientHeight
+        );
+        if (window.innerHeight && scrollHeight) {
+          this.diffHeight = scrollHeight - window.innerHeight;
+        } else {
+          this.diffHeight = 0;
+        }
+        console.log('body.height = ', document.body.clientHeight);
+        console.log('scrollHeight = ', scrollHeight);
+        console.log('diffHeight = ', this.diffHeight);
+      }
+      if (this.diffHeight > 0 && !this.stopScrolling && !this.pauseScrolling) {
         if (this.scrollTo + this.scrollIncrement > this.diffHeight) {
           this.scrollTo = this.diffHeight;
           this.scrollIncrement = -this.scrollIncrement;
@@ -64,10 +78,54 @@ export class BoardComponent implements OnInit, OnDestroy {
         window.scrollTo(0, this.scrollTo);
       }
     });
+    setInterval(() => {
+      if (!this.stopScrolling) {
+        this.pauseScrolling = !this.pauseScrolling;
+      }
+    }, 2000);
   }
 
   ngOnDestroy(): void {
     this.flightsSubscription.unsubscribe();
     this.scrollDownSubscription.unsubscribe();
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onKeydownHandler(event: KeyboardEvent) {
+    console.log(event);
+    if (event.key === ' ') {
+      this.pauseScrolling = this.stopScrolling;
+      this.stopScrolling = !this.stopScrolling;
+      if (!this.stopScrolling) {
+        const scrollHeight = Math.max(
+          document.body.scrollHeight, document.documentElement.scrollHeight,
+          document.body.offsetHeight, document.documentElement.offsetHeight,
+          document.body.clientHeight, document.documentElement.clientHeight
+        );
+        if (window.innerHeight && scrollHeight) {
+          this.diffHeight = scrollHeight - window.innerHeight;
+        } else {
+          this.diffHeight = 0;
+        }
+      }
+    } else if (event.keyCode === 38) {
+      if (this.diffHeight > 0) {
+        if (this.scrollTo - this.keyScrollIncrement < 0) {
+          this.scrollTo = 0;
+        } else {
+          this.scrollTo -= this.keyScrollIncrement;
+        }
+        window.scrollTo(0, this.scrollTo);
+      }
+    } else if (event.keyCode === 40) {
+      if (this.diffHeight > 0) {
+        if (this.scrollTo + this.keyScrollIncrement > this.diffHeight) {
+          this.scrollTo = this.diffHeight;
+        } else {
+          this.scrollTo += this.keyScrollIncrement;
+        }
+        window.scrollTo(0, this.scrollTo);
+      }
+    }
   }
 }
