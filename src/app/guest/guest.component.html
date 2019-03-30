@@ -12,7 +12,7 @@
           Embarque sur le vol
         </label>
         <select name="flight" id="flight" class="form-control" ngModel required>
-          <option [ngValue]="item.id" *ngFor="let item of flights">{{ item.name }} (#{{ item.id }})</option>
+          <option [ngValue]="item.id" *ngFor="let item of flights">{{ item.name }} (#{{ item.id }}): {{ getPassengers(item) }}</option>
         </select>
       </div>
       <button type="submit" class="btn btn-primary" [disabled]="f.invalid">Enregistrer</button>

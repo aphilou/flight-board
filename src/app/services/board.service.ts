@@ -62,6 +62,7 @@ export class BoardService {
           this.passengers = data.passengers;
           this.emitPassengers();
         }
+        this.emitArrivals();
         this.generateDownloadJsonUri();
       });
   }

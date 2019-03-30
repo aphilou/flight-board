@@ -160,10 +160,19 @@ p.hguest {
 	top: 50%;
 }
 
+#panneau .airport {
+    display: inline-block;
+    position: relative;
+    //transform: scale(0.8);
+    //left: -4%;
+}
+
 #panneau .guest {
 
     position: relative;
-    top: -17px;
+    top: -16px;
+    //left: -7%;
+    margin-left: 3px;
     display: inline-block;
 	padding: 2px;
 	overflow: hidden;
@@ -172,7 +181,7 @@ p.hguest {
     font-family: BigNoodleTitling;
     color: #eee;
 	height: 40px;
-	width: 60%;
+	width: 1200px;
     font-size: 40px;
 
 	background: -webkit-linear-gradient( to right, rgb(48, 48, 48), rgb(19, 19, 19));

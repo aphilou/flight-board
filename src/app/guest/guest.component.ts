@@ -33,7 +33,9 @@ export class GuestComponent implements OnInit, OnDestroy {
     this.brdService.emitFlights();
     this.passengerSubscription = this.brdService.passengerSubject.subscribe(
       (passengers) => {
-        this.passengers = passengers;
+        this.passengers = passengers.sort((pa, pb) => {
+          return pa.name.localeCompare(pb.name);
+        });
       }
     );
     this.brdService.emitPassengers();
@@ -54,5 +56,14 @@ export class GuestComponent implements OnInit, OnDestroy {
   onRemove(passenger: Passenger) {
     this.brdService.removePassenger(passenger);
     this.brdService.emitPassengers();
+  }
+
+  getPassengers(flight: Flight): string {
+    const inFlight = this.passengers.filter(item => {
+      return (item.flightId === flight.id);
+    }).map(elt => { 
+      return elt.name; 
+    });
+    return inFlight.join('/');
   }
 }

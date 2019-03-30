@@ -19,10 +19,13 @@
       </div>
     </div>
     <div class="row align-content-lg-start" *ngFor="let item of flights">
-      <div class="col-sm-6">
+      <div class="col-sm-4">
         <span class="col-sm-8 col-sm-offset-2" style="color: wheat">{{ item.name }}</span>
       </div>
-      <div class="col-sm-6">
+      <div class="col-sm-4">
+        <span class="col-sm-8 col-sm-offset-2" style="color: wheat" >{{ getPassengerNb(item) }}</span>
+      </div>
+      <div class="col-sm-4">
         <button type="button" class="btn btn-danger" (click)="onRemove(item)">Supprimer</button>
       </div>
     </div>

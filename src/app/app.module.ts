@@ -10,12 +10,14 @@ import { TableComponent } from './table/table.component';
 import { Routes, RouterModule } from '@angular/router';
 import { BoardService } from './services/board.service';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserPlatformLocation } from '@angular/platform-browser/src/browser/location/browser_platform_location';
 
 const appRoutes: Routes = [
   { path: 'board', component: BoardComponent },
   { path: 'guest', component: GuestComponent },
-  { path: 'table', component: TableComponent }
+  { path: 'table', component: TableComponent },
+  { path: '', component: BoardComponent }
 ];
 
 @NgModule({
@@ -31,6 +33,7 @@ const appRoutes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [

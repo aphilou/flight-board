@@ -1,19 +1,42 @@
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, Input } from '@angular/core';
 import { Arrival } from '../models/arrivals.model';
 import { BoardService } from '../services/board.service';
 import { Subscription, Observable } from 'rxjs';
+import {trigger, state, style, animate, transition} from '@angular/animations';
 import { Key } from 'protractor';
+
+const stateDefault = 'default';
 
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
-  styleUrls: ['./board.component.scss']
-})
+  styleUrls: ['./board.component.scss'],
+  animations: [
+    // Each unique animation requires its own trigger. The first argument of the trigger function is the name
+    trigger('rotatedState', [
+      state('default',  style({ transform: 'rotate(0)' })),
+      state('upone',    style({ transform: 'rotate(-25deg)' })),
+      state('uptwo',    style({ transform: 'rotate(-50deg)' })),
+      state('downone', style({ transform: 'rotate(45deg)' })),
+      state('downtwo',  style({ transform: 'rotate(90deg)' })),
+      transition('* => downone', animate('1500ms')),
+      transition('* => downtwo', animate('1500ms')),
+      transition('* => upone',   animate('1500ms')),
+      transition('* => uptwo',   animate('1500ms')),
+      transition('* => default', animate('2000ms ease-out')),
+  ])
+]})
 export class BoardComponent implements OnInit, OnDestroy {
+
+
+  state = stateDefault;
+  states = [ 'uptwo', 'upone', 'default', 'downone', 'downtwo' ];
+  stateOffset = 2;
+  planeAnimation = false;
 
   maxSize = 60;
   fhour = '19:00';
-  flight = 'SA110715';
+  @Input('flight-input') flight = 'SA110715';
   from = 'martigues';
 
   arrivals = [ 'tokyo', 'new york', 'paris' ];
@@ -30,13 +53,13 @@ export class BoardComponent implements OnInit, OnDestroy {
   pauseScrolling = false;
 
   constructor(private boardService: BoardService) {
-    console.debug('On BoardComponent constructor...');
-    console.log('body.height = ', document.body.clientHeight);
-    console.log('diffHeight = ', this.diffHeight);
+    // console.log('On BoardComponent constructor...');
+    // console.log('body.height = ', document.body.clientHeight);
+    // console.log('diffHeight = ', this.diffHeight);
   }
 
   ngOnInit() {
-    console.debug('On BoardComponent init...');
+    // console.log('On BoardComponent init...');
     this.flightsSubscription = this.boardService.arrivalsSubject.subscribe(
       (elt: Arrival[]) => {
         this.flights = elt;
@@ -49,7 +72,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       }, 200);
     })
     .subscribe(data => {
-      console.log('pageYOffset = ', data);
+      // console.log('pageYOffset = ', data);
       if (this.diffHeight == null) {
         const scrollHeight = Math.max(
           document.body.scrollHeight, document.documentElement.scrollHeight,
@@ -82,6 +105,10 @@ export class BoardComponent implements OnInit, OnDestroy {
       if (!this.stopScrolling) {
         this.pauseScrolling = !this.pauseScrolling;
       }
+      if (this.planeAnimation) {
+        const off = Math.trunc( Math.random() * 5 );
+        this.state = this.states[off];
+      }
     }, 2000);
   }
 
@@ -93,7 +120,16 @@ export class BoardComponent implements OnInit, OnDestroy {
   @HostListener('document:keydown', ['$event'])
   onKeydownHandler(event: KeyboardEvent) {
     console.log(event);
-    if (event.key === ' ') {
+    if ((event.key === 'A') || (event.key === 'a')) {
+      this.planeAnimation = !this.planeAnimation;
+    } else if ((event.key === 'D') || (event.key === 'd')) {
+      this.planeAnimation = false;
+      this.stopScrolling = true;
+      this.scrollTo = 0;
+      window.scrollTo(0, this.scrollTo);
+      this.state = stateDefault;
+      this.stateOffset = 3;
+    } else if (event.key === ' ') {
       this.pauseScrolling = this.stopScrolling;
       this.stopScrolling = !this.stopScrolling;
       if (!this.stopScrolling) {
@@ -125,6 +161,16 @@ export class BoardComponent implements OnInit, OnDestroy {
           this.scrollTo += this.keyScrollIncrement;
         }
         window.scrollTo(0, this.scrollTo);
+      }
+    } else if (event.keyCode === 37) {
+      if (this.stateOffset > 0) {
+        this.stateOffset -= 1;
+        this.state = this.states[this.stateOffset];
+      }
+    } else if (event.keyCode === 39) {
+      if (this.stateOffset < (this.states.length - 1)) {
+        this.stateOffset += 1;
+        this.state = this.states[this.stateOffset];
       }
     }
   }
