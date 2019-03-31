@@ -11,21 +11,16 @@ import { Routes, RouterModule } from '@angular/router';
 import { BoardService } from './services/board.service';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BrowserPlatformLocation } from '@angular/platform-browser/src/browser/location/browser_platform_location';
+import { HelpComponent } from './help/help.component';
 
-const appRoutes: Routes = [
-  { path: 'board', component: BoardComponent },
-  { path: 'guest', component: GuestComponent },
-  { path: 'table', component: TableComponent },
-  { path: '', component: BoardComponent }
-];
 
 @NgModule({
   declarations: [
     AppComponent,
     BoardComponent,
     GuestComponent,
-    TableComponent
+    TableComponent,
+    HelpComponent
   ],
   imports: [
     BrowserModule,
@@ -33,8 +28,7 @@ const appRoutes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    BrowserAnimationsModule,
-    RouterModule.forRoot(appRoutes)
+    BrowserAnimationsModule
   ],
   providers: [
     BoardService
