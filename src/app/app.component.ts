@@ -44,14 +44,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.boardService.toggleMenu();
   }
 
-  @HostListener('document:keydown.escape', ['$event'])
-  onKeydownHandler(event: KeyboardEvent) {
-    console.debug(event);
-    if (!this.showMenu) {
-      this.boardService.toggleMenu();
-    }
-  }
-
   onDestinationChange() {
     this.boardService.flightSrc = (this.destination + '          ').slice(0, 9);
     console.log('Change {}', this.boardService.flightSrc);

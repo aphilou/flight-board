@@ -2,8 +2,9 @@ import { Component, OnInit, OnDestroy, HostListener, Input } from '@angular/core
 import { Arrival } from '../models/arrivals.model';
 import { BoardService } from '../services/board.service';
 import { Subscription, Observable } from 'rxjs';
-import {trigger, state, style, animate, transition} from '@angular/animations';
-import { Key } from 'protractor';
+import { switchMap } from 'rxjs/operators';
+import { trigger, state, style, animate, transition } from '@angular/animations';
+import { ActivatedRoute } from '@angular/router';
 
 const stateDefault = 'default';
 
@@ -32,6 +33,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   states = [ 'uptwo', 'upone', 'default', 'downone', 'downtwo' ];
   stateOffset = 2;
   planeAnimation = false;
+  withNoMenu = false;
 
   maxSize = 60;
   fhour = '19:00';
@@ -54,14 +56,26 @@ export class BoardComponent implements OnInit, OnDestroy {
   stopScrolling = true;
   pauseScrolling = false;
 
-  constructor(private boardService: BoardService) {
+  constructor(private boardService: BoardService, private route: ActivatedRoute) {
     // console.log('On BoardComponent constructor...');
     // console.log('body.height = ', document.body.clientHeight);
     // console.log('diffHeight = ', this.diffHeight);
+    route.data.subscribe(v => {
+      console.log('Board data ', v);
+      if (v.nomenu) {
+        this.withNoMenu = v.nomenu;
+      } else {
+        this.withNoMenu = false;
+      }
+      console.log('withNoMenu = ', this.withNoMenu);
+    });
   }
 
   ngOnInit() {
-    // console.log('On BoardComponent init...');
+    //console.log('On BoardComponent init...', this.withNoMenu);
+    if (this.withNoMenu) {
+      this.boardService.disableMenu();
+    }
     this.flightSrc$ = this.boardService.flightSrcSubject.subscribe(
       (fs) => {
         this.from = fs;
@@ -136,6 +150,13 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.flightSrc$.unsubscribe();
     this.flightTime$.unsubscribe();
     this.flightNum$.unsubscribe();
+  }
+
+  @HostListener('document:keydown.escape', ['$event'])
+  onEscapeHandler(event: KeyboardEvent) {
+    if (!this.withNoMenu) {
+      this.boardService.toggleMenu();
+    }
   }
 
   @HostListener('document:keydown', ['$event'])

@@ -34,7 +34,7 @@
         <span style="color: wheat">{{ item.name }}</span>
       </div>
       <div class="col-sm-4">
-        <span style="color: wheat">{{ item.flightId }}</span>
+        <span style="color: wheat" [title]="getFlightInfo(item)">{{ item.flightId }}</span>
       </div>
       <div class="col-sm-4">
         <button type="button" class="btn btn-danger" (click)="onRemove(item)">Supprimer</button>

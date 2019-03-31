@@ -101,6 +101,11 @@ export class BoardService {
     this.menuSubject.next(this.showMenu);
   }
 
+  disableMenu() {
+    this.showMenu = false;
+    this.emitMenu();
+  }
+
   toggleMenu() {
     this.showMenu = !this.showMenu;
     this.emitMenu();

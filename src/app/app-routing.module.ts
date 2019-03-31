@@ -7,6 +7,7 @@ import { BoardComponent } from './board/board.component';
 
 const appRoutes: Routes = [
   { path: 'board', component: BoardComponent },
+  { path: 'board/0', component: BoardComponent, data: { nomenu: true} },
   { path: 'guest', component: GuestComponent },
   { path: 'table', component: TableComponent },
   { path: 'help',  component: HelpComponent },

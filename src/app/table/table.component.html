@@ -14,10 +14,13 @@
 <div class="form-group" style="margin-top: 20px;">
   <div class="container" style="overflow-y: scroll; height: 600px;">
     <div class="row align-text-bottom text-warning">
-      <div class="col-sm-6 col-sm-offset-1">
+      <div class="col-sm-2 col-sm-offset-1">
         <p>Destination</p>
       </div>
-    </div>
+      <div class="col-sm-2 col-sm-offset-1">
+          <p>Nombre de passagers</p>
+        </div>
+      </div>
     <div class="row align-content-lg-start" *ngFor="let item of flights">
       <div class="col-sm-4">
         <span class="col-sm-8 col-sm-offset-2" style="color: wheat">{{ item.name }}</span>

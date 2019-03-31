@@ -58,11 +58,17 @@ export class GuestComponent implements OnInit, OnDestroy {
     this.brdService.emitPassengers();
   }
 
+  getFlightInfo(passenger: Passenger) {
+    //console.log('Tooltip for ', passenger.name);
+    const flight = this.flights.find(ite => (ite.id === passenger.flightId) );
+    return flight.name + ' - ' + this.getPassengers(flight);
+  }
+
   getPassengers(flight: Flight): string {
     const inFlight = this.passengers.filter(item => {
       return (item.flightId === flight.id);
-    }).map(elt => { 
-      return elt.name; 
+    }).map(elt => {
+      return elt.name;
     });
     return inFlight.join('/');
   }
