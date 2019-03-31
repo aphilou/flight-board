@@ -8,6 +8,9 @@
     </ul>
     <div class="navbar-right">
       <p>Hello !</p>
+      <input type="text" [(ngModel)]="ftime" (change)="onTimeChange()" size="5">
+      <input type="text" [(ngModel)]="fnumber" (change)="onNumberChange()" size="7">
+      <input type="text" [(ngModel)]="destination" (change)="onDestinationChange()" size="7">
       <a [href]="downloadJsonHref" download="data.json">Télécharger les données</a>
       <button (click)="toggleMenu()">Hide</button>
     </div>

@@ -11,6 +11,10 @@ import { SafeUrl } from '@angular/platform-browser';
 export class AppComponent implements OnInit, OnDestroy {
 
   title = 'flight-board';
+  destination = 'Martigues';
+  ftime = '19:00';
+  fnumber = 'SA110715';
+
   showMenu: boolean;
   showMenuSubscription: Subscription;
   downloadJsonHref: SafeUrl;
@@ -40,11 +44,27 @@ export class AppComponent implements OnInit, OnDestroy {
     this.boardService.toggleMenu();
   }
 
-  @HostListener('document:keydown.escape', ['$event']) 
+  @HostListener('document:keydown.escape', ['$event'])
   onKeydownHandler(event: KeyboardEvent) {
-    console.log(event);
+    console.debug(event);
     if (!this.showMenu) {
       this.boardService.toggleMenu();
     }
+  }
+
+  onDestinationChange() {
+    this.boardService.flightSrc = (this.destination + '          ').slice(0, 9);
+    console.log('Change {}', this.boardService.flightSrc);
+    this.boardService.emitFlightSrc();
+  }
+
+  onTimeChange() {
+    this.boardService.flightTime = (this.ftime + '     ').slice(0, 5);
+    this.boardService.emitFlightTime();
+  }
+
+  onNumberChange() {
+    this.boardService.flightNumber = (this.fnumber + '        ').slice(0, 8);
+    this.boardService.emitFlightNumber();
   }
 }

@@ -18,6 +18,14 @@ export class BoardService {
   private jsonUrl: SafeUrl;
   public jsonSubject = new Subject<SafeUrl>();
 
+  public flightSrc = 'Martigues';
+  public flightSrcSubject = new Subject<string>();
+
+  public flightNumber = 'SA12345T';
+  public flightNumSubject = new Subject<string>();
+
+  public flightTime = '18:00';
+  public flightTimeSubject = new Subject<string>();
 
   private flights = [
     {
@@ -75,6 +83,18 @@ export class BoardService {
     const theJSON = JSON.stringify(exportData);
     const uri = this.sanitizer.bypassSecurityTrustUrl('data:text/json;charset=UTF-8,' + encodeURIComponent(theJSON));
     this.jsonSubject.next(uri);
+  }
+
+  emitFlightSrc() {
+    this.flightSrcSubject.next(this.flightSrc);
+  }
+
+  emitFlightTime() {
+    this.flightTimeSubject.next(this.flightTime);
+  }
+
+  emitFlightNumber() {
+    this.flightNumSubject.next(this.flightNumber);
   }
 
   emitMenu() {

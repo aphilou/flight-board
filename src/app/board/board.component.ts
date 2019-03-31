@@ -28,7 +28,6 @@ const stateDefault = 'default';
 ]})
 export class BoardComponent implements OnInit, OnDestroy {
 
-
   state = stateDefault;
   states = [ 'uptwo', 'upone', 'default', 'downone', 'downtwo' ];
   stateOffset = 2;
@@ -38,6 +37,9 @@ export class BoardComponent implements OnInit, OnDestroy {
   fhour = '19:00';
   @Input('flight-input') flight = 'SA110715';
   from = 'martigues';
+  flightSrc$: Subscription;
+  flightTime$: Subscription;
+  flightNum$: Subscription;
 
   arrivals = [ 'tokyo', 'new york', 'paris' ];
   guests = [ 'Céline Flaux', 'Antoine Grizeman' ];
@@ -60,6 +62,22 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // console.log('On BoardComponent init...');
+    this.flightSrc$ = this.boardService.flightSrcSubject.subscribe(
+      (fs) => {
+        this.from = fs;
+      }
+    );
+    this.flightTime$ = this.boardService.flightTimeSubject.subscribe(
+      (ft) => {
+        this.fhour = ft;
+      }
+    );
+    this.flightNum$ = this.boardService.flightNumSubject.subscribe(
+      (fn) => {
+        this.flight = fn;
+      }
+    );
+    this.from = this.boardService.flightSrc;
     this.flightsSubscription = this.boardService.arrivalsSubject.subscribe(
       (elt: Arrival[]) => {
         this.flights = elt;
@@ -115,11 +133,14 @@ export class BoardComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.flightsSubscription.unsubscribe();
     this.scrollDownSubscription.unsubscribe();
+    this.flightSrc$.unsubscribe();
+    this.flightTime$.unsubscribe();
+    this.flightNum$.unsubscribe();
   }
 
   @HostListener('document:keydown', ['$event'])
   onKeydownHandler(event: KeyboardEvent) {
-    console.log(event);
+    //console.log(event);
     if ((event.key === 'A') || (event.key === 'a')) {
       this.planeAnimation = !this.planeAnimation;
     } else if ((event.key === 'D') || (event.key === 'd')) {
