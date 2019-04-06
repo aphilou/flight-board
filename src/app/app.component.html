@@ -8,6 +8,8 @@
     </ul>
     <div class="navbar-right">
       <p>Hello !</p>
+      <mv-slider (change)="slideStop()" [(value)]="namesize" [min]="200" [max]="2000" [step]="10"></mv-slider>
+      <!-- <input type="text" [(ngModel)]="namesize" (change)="onNameSize()" size="4"> -->
       <input type="text" [(ngModel)]="ftime" (change)="onTimeChange()" size="5">
       <input type="text" [(ngModel)]="fnumber" (change)="onNumberChange()" size="7">
       <input type="text" [(ngModel)]="destination" (change)="onDestinationChange()" size="7">

@@ -12,6 +12,7 @@ import { BoardService } from './services/board.service';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HelpComponent } from './help/help.component';
+import { NgxBootstrapSliderModule } from 'ngx-bootstrap-slider';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { HelpComponent } from './help/help.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxBootstrapSliderModule
   ],
   providers: [
     BoardService

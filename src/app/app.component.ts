@@ -14,6 +14,7 @@ export class AppComponent implements OnInit, OnDestroy {
   destination = 'Martigues';
   ftime = '19:00';
   fnumber = 'SA110715';
+  namesize: number;
 
   showMenu: boolean;
   showMenuSubscription: Subscription;
@@ -59,4 +60,17 @@ export class AppComponent implements OnInit, OnDestroy {
     this.boardService.flightNumber = (this.fnumber + '        ').slice(0, 8);
     this.boardService.emitFlightNumber();
   }
+
+  onNameSize() {
+    console.log('Name size = ', this.namesize);
+    this.boardService.nameSize = this.namesize;
+    this.boardService.emitNameSize();
+  }
+
+  slideStop() {
+    console.log('Stopped');
+    console.log('Name size = ', this.namesize);
+    this.boardService.nameSize = this.namesize;
+    this.boardService.emitNameSize();
+    }
 }

@@ -37,7 +37,7 @@
       </div><!--
       -->
     </div>
-    <div class="guest">
+    <div class="guest" [ngStyle]="{'width': nameSize+'px'}">
       <span class="defile" [attr.data-text]="' - ' + table.passengers" *ngIf="table.passengers.length > maxSize">{{ table.passengers }}</span>
       <span *ngIf="table.passengers.length <= maxSize">{{ table.passengers }}</span>
     </div>

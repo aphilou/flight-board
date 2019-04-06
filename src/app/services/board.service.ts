@@ -27,6 +27,9 @@ export class BoardService {
   public flightTime = '18:00';
   public flightTimeSubject = new Subject<string>();
 
+  public nameSize = 1200;
+  public nameSizeSubject = new Subject<number>();
+  
   private flights = [
     {
       id: 1,
@@ -95,6 +98,10 @@ export class BoardService {
 
   emitFlightNumber() {
     this.flightNumSubject.next(this.flightNumber);
+  }
+
+  emitNameSize() {
+    this.nameSizeSubject.next(this.nameSize);
   }
 
   emitMenu() {

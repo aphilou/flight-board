@@ -39,9 +39,11 @@ export class BoardComponent implements OnInit, OnDestroy {
   fhour = '19:00';
   @Input('flight-input') flight = 'SA110715';
   from = 'martigues';
+  nameSize = 1200;
   flightSrc$: Subscription;
   flightTime$: Subscription;
   flightNum$: Subscription;
+  nameSize$: Subscription;
 
   arrivals = [ 'tokyo', 'new york', 'paris' ];
   guests = [ 'Céline Flaux', 'Antoine Grizeman' ];
@@ -90,6 +92,9 @@ export class BoardComponent implements OnInit, OnDestroy {
       (fn) => {
         this.flight = fn;
       }
+    );
+    this.nameSize$ = this.boardService.nameSizeSubject.subscribe(
+      ns => this.nameSize = ns
     );
     this.from = this.boardService.flightSrc;
     this.flightsSubscription = this.boardService.arrivalsSubject.subscribe(
