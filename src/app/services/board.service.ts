@@ -29,7 +29,7 @@ export class BoardService {
 
   public nameSize = 1200;
   public nameSizeSubject = new Subject<number>();
-  
+
   private flights = [
     {
       id: 1,

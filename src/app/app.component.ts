@@ -35,6 +35,8 @@ export class AppComponent implements OnInit, OnDestroy {
         this.downloadJsonHref = uri;
       }
     );
+    this.namesize = this.boardService.nameSize;
+    this.boardService.emitNameSize();
   }
 
   ngOnDestroy(): void {
