@@ -47,9 +47,12 @@
             ],
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.css",
+              "./node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css",
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": [
+              "./node_modules/bootstrap-slider/dist/bootstrap-slider.min.js"
+            ],
             "es5BrowserSupport": true
           },
           "configurations": {
